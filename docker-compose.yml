@@ -1,4 +1,3 @@
-version: '3'
 services:
   hyperf-pix:
     container_name: hyperf-pix
