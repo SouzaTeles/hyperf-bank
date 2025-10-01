@@ -14,23 +14,23 @@ namespace App\Listener;
 
 use Hyperf\Collection\Arr;
 use Hyperf\Database\Events\QueryExecuted;
+use Hyperf\Di\Annotation\Inject;
 use Hyperf\Event\Annotation\Listener;
 use Hyperf\Event\Contract\ListenerInterface;
 use Hyperf\Logger\LoggerFactory;
-use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 #[Listener]
 class DbQueryExecutedListener implements ListenerInterface
 {
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    #[Inject]
+    private LoggerFactory $loggerFactory;
 
-    public function __construct(ContainerInterface $container)
+    private LoggerInterface $logger;
+
+    public function __construct()
     {
-        $this->logger = $container->get(LoggerFactory::class)->get('sql');
+        $this->logger = $this->loggerFactory->get('sql');
     }
 
     public function listen(): array
@@ -47,7 +47,7 @@ class DbQueryExecutedListener implements ListenerInterface
     {
         if ($event instanceof QueryExecuted) {
             $sql = $event->sql;
-            if (! Arr::isAssoc($event->bindings)) {
+            if (!Arr::isAssoc($event->bindings)) {
                 $position = 0;
                 foreach ($event->bindings as $value) {
                     $position = strpos($sql, '?', $position);

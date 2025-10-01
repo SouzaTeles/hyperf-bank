@@ -16,6 +16,7 @@
         "hyperf/cache": "~3.1.0",
         "hyperf/command": "~3.1.0",
         "hyperf/config": "~3.1.0",
+        "hyperf/database": "~3.1.0",
         "hyperf/db-connection": "~3.1.0",
         "hyperf/engine": "^2.10",
         "hyperf/framework": "~3.1.0",
@@ -24,12 +25,16 @@
         "hyperf/logger": "~3.1.0",
         "hyperf/memory": "~3.1.0",
         "hyperf/process": "~3.1.0",
-        "hyperf/database": "~3.1.0"
+        "hyperf/validation": "^3.1",
+        "notfloran/mjml-bundle": "^3.8",
+        "ramsey/uuid": "^4.9",
+        "symfony/mailer": "^7.3"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.0",
         "hyperf/devtool": "~3.1.0",
-        "hyperf/testing": "~3.1.0",
+        "hyperf/testing": "^3.1",
+        "hyperf/watcher": "^3.1",
         "mockery/mockery": "^1.0",
         "phpstan/phpstan": "^1.0",
         "swoole/ide-helper": "^5.0"
@@ -66,7 +71,7 @@
         "post-autoload-dump": [
             "rm -rf runtime/container"
         ],
-        "test": "co-phpunit --prepend test/bootstrap.php --colors=always",
+        "test": "co-phpunit --prepend test/bootstrap.php --colors=always --testdox",
         "cs-fix": "php-cs-fixer fix $1",
         "analyse": "phpstan analyse --memory-limit 300M",
         "start": [

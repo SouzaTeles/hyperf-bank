@@ -11,6 +11,8 @@ vendor/
 .DS_Store
 .phpunit*
 *.cache
-.vscode/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
 /phpstan.neon
 /phpunit.xml

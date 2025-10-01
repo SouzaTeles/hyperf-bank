@@ -8,10 +8,55 @@ services:
       - ./:/opt/www
     ports:
       - 9501:9501
+    env_file:
+      - ./.env
+    depends_on:
+      - mysql
+      - mailhog
     environment:
       - APP_ENV=dev
       - SCAN_CACHEABLE=false
 
+      - DB_DRIVER=${DB_DRIVER}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      
+      - MAIL_HOST=mailhog
+      - MAIL_PORT=1025
+      - MAIL_FROM_ADDRESS=noreply@hyperf-bank.com
+      - MAIL_FROM_NAME=Hyperf Bank
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    restart: unless-stopped
+    env_file:
+      - ./.env
+    environment:
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./docker/mysql-init:/docker-entrypoint-initdb.d
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: mailhog
+    restart: unless-stopped
+    ports:
+      - 1025:1025  # SMTP server
+      - 8025:8025  # Web UI
+
 networks:
   default:
     name: hyperf-pix
+
+volumes:
+  mysql-data:

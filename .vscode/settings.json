@@ -1,0 +1,14 @@
+{
+    "files.exclude": {
+        "runtime/": true
+    },
+    "intelephense.stubs": [
+        "swoole",
+        "redis",
+        "pdo",
+        "pdo_mysql"
+    ],
+    "intelephense.files.associations": [
+        "*.php"
+    ]
+}

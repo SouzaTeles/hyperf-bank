@@ -10,7 +10,6 @@ declare(strict_types=1);
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
 use function Hyperf\Support\env;
-
 return [
     'default' => [
         'driver' => env('DB_DRIVER', 'mysql'),
