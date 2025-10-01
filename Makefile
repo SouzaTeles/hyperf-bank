@@ -37,5 +37,14 @@ logs-clear:
 test:
 	docker compose exec hyperf-pix composer test
 
+test-unit:
+	docker compose exec hyperf-pix vendor/bin/phpunit --testsuite=Unit --testdox
+
+test-integration:
+	docker compose exec hyperf-pix vendor/bin/phpunit --testsuite=Integration --testdox
+
 test-filter:
 	docker compose exec hyperf-pix vendor/bin/phpunit --filter=$(filter)
+
+test-coverage:
+	docker compose exec hyperf-pix vendor/bin/phpunit --coverage-html coverage

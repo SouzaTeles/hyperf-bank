@@ -359,21 +359,66 @@ O container já está configurado para rodar o cron automaticamente via entrypoi
 
 ## Testes
 
+### Estrutura de Testes
+
+O projeto possui 2 tipos de testes:
+
+- **Testes Unitários** (`test/Unit/`) - Testam classes isoladas com mocks
+- **Testes de Integração** (`test/Cases/`) - Testam fluxos completos com banco de dados
+
 ### Executar Testes
 
 ```bash
 # Todos os testes
 make test
 
-# Apenas testes de saques agendados
-make test-filter filter=ProcessScheduled
+# Apenas testes unitários (rápidos, sem banco)
+make test-unit
+
+# Apenas testes de integração (com banco)
+make test-integration
 
 # Teste específico
 make test-filter filter=testProcessScheduledWithdrawWithSufficientBalance
+
+# Cobertura de código
+make test-coverage
 ```
 
-### Cobertura
+### Testes Unitários
 
+**Service Layer:**
+- `WithdrawServiceTest` - Testa lógica de execução de saques
+  - Saque com saldo suficiente
+  - Exceção quando saldo insuficiente
+  - Não permite saldo negativo
+  - Atualiza status do saque
+  - Saque com saldo exato
+
+**Exceções:**
+- `InsufficientBalanceExceptionTest` - Testa exceção customizada
+  - Armazena saldo atual e solicitado
+  - Funciona com valores zero e grandes
+
+**Models:**
+- `AccountTest` - Testa model Account
+  - Configuração de tabela, primary key, timestamps
+  - Fillable attributes e casts
+  
+- `AccountWithdrawTest` - Testa model AccountWithdraw
+  - Configuração de campos e casts
+  - Constantes e valores booleanos
+
+**Validações:**
+- `WithdrawRequestTest` - Testa regras de validação
+  - Formato de data e validações de campo
+  - Método aceita PIX/pix (case insensitive)
+  - Amount >= 1
+  - Schedule futuro e <= 7 dias
+
+### Testes de Integração
+
+**Fluxo Completo:**
 - Saque imediato com saldo suficiente/insuficiente
 - Validação de agendamento (passado/futuro/limite 7 dias)
 - Processamento de saques agendados
