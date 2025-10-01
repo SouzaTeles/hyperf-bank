@@ -9,13 +9,20 @@ use App\Model\Account;
 use App\Request\WithdrawRequest;
 use App\Service\WithdrawService;
 use Hyperf\HttpServer\Contract\ResponseInterface;
+use Hyperf\Logger\LoggerFactory;
+use Psr\Log\LoggerInterface;
+use Throwable;
 
-class AccountController extends AbstractController
+class WithdrawController extends AbstractController
 {
+    private LoggerInterface $logger;
+
     public function __construct(
         protected ResponseInterface $response,
-        protected WithdrawService $withdrawService
+        protected WithdrawService $withdrawService,
+        LoggerFactory $loggerFactory
     ) {
+        $this->logger = $loggerFactory->get('withdraw');
     }
 
     public function __invoke(string $accountId, WithdrawRequest $request)
@@ -45,6 +52,17 @@ class AccountController extends AbstractController
                 'balance' => $e->getBalance(),
                 'requested' => $e->getRequested(),
             ])->withStatus(400);
+            
+        } catch (Throwable $e) {
+            $this->logger->error('Erro inesperado ao processar saque', [
+                'account_id' => $accountId,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            
+            return $this->response->json([
+                'message' => 'Erro ao processar saque. Por favor, tente novamente.',
+            ])->withStatus(500);
         }
     }
 }
