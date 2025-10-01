@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use NotFloran\MjmlBundle\Renderer\BinaryRenderer;
+use RuntimeException;
 
 class MjmlService
 {
@@ -22,8 +23,8 @@ class MjmlService
     }
 
     /**
-     * Render MJML template to HTML
-     * 
+     * Render MJML template to HTML.
+     *
      * @param string $templatePath Path to MJML template file
      * @param array $variables Variables to replace in template
      * @return string Compiled HTML
@@ -31,19 +32,17 @@ class MjmlService
     public function render(string $templatePath, array $variables = []): string
     {
         if (!file_exists($templatePath)) {
-            throw new \RuntimeException("MJML template not found: {$templatePath}");
+            throw new RuntimeException("MJML template not found: {$templatePath}");
         }
 
         $mjml = file_get_contents($templatePath);
-        
+
         // Replace variables in MJML
         foreach ($variables as $key => $value) {
-            $mjml = str_replace("{{" . $key . "}}", htmlspecialchars($value, ENT_QUOTES, 'UTF-8'), $mjml);
+            $mjml = str_replace('{{' . $key . '}}', htmlspecialchars($value, ENT_QUOTES, 'UTF-8'), $mjml);
         }
-        
+
         // Compile MJML to HTML
-        $html = $this->renderer->render($mjml);
-        
-        return $html;
+        return $this->renderer->render($mjml);
     }
 }

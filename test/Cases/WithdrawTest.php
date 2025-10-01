@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Test\Cases;
 
 use App\Service\WithdrawService;
-use Hyperf\Testing\TestCase;
 use Hyperf\DbConnection\Db;
 use Hyperf\Stringable\Str;
+use Hyperf\Testing\TestCase;
 
 class WithdrawTest extends TestCase
 {
@@ -16,7 +16,7 @@ class WithdrawTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         $this->accountId = Str::uuid()->toString();
         Db::table('account')->insert([
             'id' => $this->accountId,
@@ -31,7 +31,7 @@ class WithdrawTest extends TestCase
         Db::table('account')->where('id', $this->accountId)->delete();
         parent::tearDown();
     }
-    
+
     public function testWithdrawRequestAndGetSuccess()
     {
         $payload = [
@@ -46,12 +46,12 @@ class WithdrawTest extends TestCase
         ];
 
         $response = $this->post("/account/{$this->accountId}/balance/withdraw", $payload);
-        
+
         $response->assertStatus(200)
             ->assertJsonStructure(['account_id', 'withdraw_id', 'amount', 'new_balance'])
             ->assertJson(['account_id' => $this->accountId]);
     }
-    
+
     public function testWithdrawRequestAndGetError()
     {
         $payload = [
@@ -66,12 +66,12 @@ class WithdrawTest extends TestCase
         ];
 
         $response = $this->post("/account/{$this->accountId}/balance/withdraw", $payload);
-        
+
         $response->assertStatus(400)
             ->assertJsonStructure(['message', 'errors'])
             ->assertJson(['message' => 'Validation failed']);
     }
-    
+
     public function testWithdrawWithInsufficientBalanceAndGetError()
     {
         // Conta tem saldo de 1000,00, tentando sacar 1500,00
@@ -87,16 +87,16 @@ class WithdrawTest extends TestCase
         ];
 
         $response = $this->post("/account/{$this->accountId}/balance/withdraw", $payload);
-        
+
         $response->assertStatus(400)
             ->assertJsonStructure(['message', 'balance', 'requested'])
             ->assertJsonFragment(['message' => 'Insufficient balance']);
-        
+
         // Verificar que o saldo não foi alterado
         $account = Db::table('account')->where('id', $this->accountId)->first();
         $this->assertEquals(1000.00, $account->balance);
     }
-    
+
     public function testWithdrawScheduledInPastAndGetError()
     {
         // Tentar agendar para uma data no passado
@@ -112,22 +112,22 @@ class WithdrawTest extends TestCase
         ];
 
         $response = $this->post("/account/{$this->accountId}/balance/withdraw", $payload);
-        
+
         $response->assertStatus(400)
             ->assertJsonStructure(['message', 'errors'])
             ->assertJson(['message' => 'Validation failed'])
             ->assertJsonFragment(['A data de agendamento deve ser no futuro.']);
-        
+
         // Verificar que o saldo não foi alterado
         $account = Db::table('account')->where('id', $this->accountId)->first();
         $this->assertEquals(1000.00, $account->balance);
     }
-    
+
     public function testWithdrawScheduledMoreThan7DaysAndGetError()
     {
         // Tentar agendar para mais de 7 dias no futuro
         $futureDate = date('Y-m-d H:i', strtotime('+8 days'));
-        
+
         $payload = [
             'method' => 'PIX',
             'pix' => [
@@ -140,22 +140,22 @@ class WithdrawTest extends TestCase
         ];
 
         $response = $this->post("/account/{$this->accountId}/balance/withdraw", $payload);
-        
+
         $response->assertStatus(400)
             ->assertJsonStructure(['message', 'errors'])
             ->assertJson(['message' => 'Validation failed'])
             ->assertJsonFragment(['A data de agendamento não pode ser maior que 7 dias.']);
-        
+
         // Verificar que o saldo não foi alterado
         $account = Db::table('account')->where('id', $this->accountId)->first();
         $this->assertEquals(1000.00, $account->balance);
     }
-    
+
     public function testWithdrawScheduledIn2DaysAndGetSuccess()
     {
         // Agendar para 2 dias no futuro (dentro da janela válida)
         $futureDate = date('Y-m-d H:i', strtotime('+2 days'));
-        
+
         $payload = [
             'method' => 'PIX',
             'pix' => [
@@ -168,11 +168,11 @@ class WithdrawTest extends TestCase
         ];
 
         $response = $this->post("/account/{$this->accountId}/balance/withdraw", $payload);
-        
+
         $response->assertStatus(200)
             ->assertJsonStructure(['account_id', 'withdraw_id', 'amount', 'new_balance'])
             ->assertJson(['account_id' => $this->accountId]);
-        
+
         // Verificar que o saldo NÃO foi deduzido (apenas quando processar)
         $account = Db::table('account')->where('id', $this->accountId)->first();
         $this->assertEquals(1000.00, $account->balance);
@@ -182,7 +182,7 @@ class WithdrawTest extends TestCase
     {
         // 1. Criar saque agendado no passado
         $pastDate = date('Y-m-d H:i:s', strtotime('-1 hour'));
-        
+
         $withdrawId = Str::uuid()->toString();
         Db::table('account_withdraw')->insert([
             'id' => $withdrawId,
@@ -228,7 +228,7 @@ class WithdrawTest extends TestCase
     {
         // 1. Criar saque agendado no passado com valor maior que o saldo
         $pastDate = date('Y-m-d H:i:s', strtotime('-1 hour'));
-        
+
         $withdrawId = Str::uuid()->toString();
         Db::table('account_withdraw')->insert([
             'id' => $withdrawId,
@@ -275,7 +275,7 @@ class WithdrawTest extends TestCase
     {
         // 1. Criar saque agendado no FUTURO
         $futureDate = date('Y-m-d H:i:s', strtotime('+1 hour'));
-        
+
         $withdrawId = Str::uuid()->toString();
         Db::table('account_withdraw')->insert([
             'id' => $withdrawId,
@@ -323,7 +323,7 @@ class WithdrawTest extends TestCase
         $pastDate = date('Y-m-d H:i:s', strtotime('-1 hour'));
         $withdrawIds = [];
 
-        for ($i = 0; $i < 3; $i++) {
+        for ($i = 0; $i < 3; ++$i) {
             $withdrawId = Str::uuid()->toString();
             $withdrawIds[] = $withdrawId;
 
@@ -369,7 +369,7 @@ class WithdrawTest extends TestCase
     {
         // 1. Criar saque agendado JÁ PROCESSADO
         $pastDate = date('Y-m-d H:i:s', strtotime('-1 hour'));
-        
+
         $withdrawId = Str::uuid()->toString();
         Db::table('account_withdraw')->insert([
             'id' => $withdrawId,

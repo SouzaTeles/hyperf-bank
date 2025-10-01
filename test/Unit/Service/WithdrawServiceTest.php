@@ -29,7 +29,7 @@ class WithdrawServiceTest extends TestCase
         $mailer = Mockery::mock(MailerInterface::class);
         $loggerFactory = Mockery::mock(LoggerFactory::class);
         $logger = Mockery::mock(LoggerInterface::class);
-        
+
         $loggerFactory->shouldReceive('get')
             ->with('withdraw')
             ->andReturn($logger);
@@ -40,8 +40,8 @@ class WithdrawServiceTest extends TestCase
         $account = Mockery::mock(Account::class)->makePartial();
         $account->balance = 1000.00;
         $account->shouldReceive('save')->once()->andReturn(true);
-        $account->shouldReceive('setAttribute')->andReturnUsing(function($key, $value) use ($account) {
-            $account->$key = $value;
+        $account->shouldReceive('setAttribute')->andReturnUsing(function ($key, $value) use ($account) {
+            $account->{$key} = $value;
             return $account;
         });
 
@@ -49,8 +49,8 @@ class WithdrawServiceTest extends TestCase
         $withdraw = Mockery::mock(AccountWithdraw::class)->makePartial();
         $withdraw->amount = 100.00;
         $withdraw->shouldReceive('save')->once()->andReturn(true);
-        $withdraw->shouldReceive('setAttribute')->andReturnUsing(function($key, $value) use ($withdraw) {
-            $withdraw->$key = $value;
+        $withdraw->shouldReceive('setAttribute')->andReturnUsing(function ($key, $value) use ($withdraw) {
+            $withdraw->{$key} = $value;
             return $withdraw;
         });
 
@@ -68,7 +68,7 @@ class WithdrawServiceTest extends TestCase
         $mailer = Mockery::mock(MailerInterface::class);
         $loggerFactory = Mockery::mock(LoggerFactory::class);
         $logger = Mockery::mock(LoggerInterface::class);
-        
+
         $loggerFactory->shouldReceive('get')
             ->with('withdraw')
             ->andReturn($logger);
@@ -97,7 +97,7 @@ class WithdrawServiceTest extends TestCase
         $mailer = Mockery::mock(MailerInterface::class);
         $loggerFactory = Mockery::mock(LoggerFactory::class);
         $logger = Mockery::mock(LoggerInterface::class);
-        
+
         $loggerFactory->shouldReceive('get')
             ->with('withdraw')
             ->andReturn($logger);
@@ -125,7 +125,7 @@ class WithdrawServiceTest extends TestCase
         $mailer = Mockery::mock(MailerInterface::class);
         $loggerFactory = Mockery::mock(LoggerFactory::class);
         $logger = Mockery::mock(LoggerInterface::class);
-        
+
         $loggerFactory->shouldReceive('get')
             ->with('withdraw')
             ->andReturn($logger);
@@ -136,8 +136,8 @@ class WithdrawServiceTest extends TestCase
         $account = Mockery::mock(Account::class)->makePartial();
         $account->balance = 500.00;
         $account->shouldReceive('save')->once()->andReturn(true);
-        $account->shouldReceive('setAttribute')->andReturnUsing(function($key, $value) use ($account) {
-            $account->$key = $value;
+        $account->shouldReceive('setAttribute')->andReturnUsing(function ($key, $value) use ($account) {
+            $account->{$key} = $value;
             return $account;
         });
 
@@ -146,8 +146,8 @@ class WithdrawServiceTest extends TestCase
         $withdraw->amount = 250.00;
         $withdraw->done = false;
         $withdraw->shouldReceive('save')->once()->andReturn(true);
-        $withdraw->shouldReceive('setAttribute')->andReturnUsing(function($key, $value) use ($withdraw) {
-            $withdraw->$key = $value;
+        $withdraw->shouldReceive('setAttribute')->andReturnUsing(function ($key, $value) use ($withdraw) {
+            $withdraw->{$key} = $value;
             return $withdraw;
         });
 
@@ -165,7 +165,7 @@ class WithdrawServiceTest extends TestCase
         $mailer = Mockery::mock(MailerInterface::class);
         $loggerFactory = Mockery::mock(LoggerFactory::class);
         $logger = Mockery::mock(LoggerInterface::class);
-        
+
         $loggerFactory->shouldReceive('get')
             ->with('withdraw')
             ->andReturn($logger);
@@ -176,8 +176,8 @@ class WithdrawServiceTest extends TestCase
         $account = Mockery::mock(Account::class)->makePartial();
         $account->balance = 100.00;
         $account->shouldReceive('save')->once()->andReturn(true);
-        $account->shouldReceive('setAttribute')->andReturnUsing(function($key, $value) use ($account) {
-            $account->$key = $value;
+        $account->shouldReceive('setAttribute')->andReturnUsing(function ($key, $value) use ($account) {
+            $account->{$key} = $value;
             return $account;
         });
 
@@ -185,8 +185,8 @@ class WithdrawServiceTest extends TestCase
         $withdraw = Mockery::mock(AccountWithdraw::class)->makePartial();
         $withdraw->amount = 100.00;
         $withdraw->shouldReceive('save')->once()->andReturn(true);
-        $withdraw->shouldReceive('setAttribute')->andReturnUsing(function($key, $value) use ($withdraw) {
-            $withdraw->$key = $value;
+        $withdraw->shouldReceive('setAttribute')->andReturnUsing(function ($key, $value) use ($withdraw) {
+            $withdraw->{$key} = $value;
             return $withdraw;
         });
 

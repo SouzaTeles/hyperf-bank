@@ -30,11 +30,8 @@ class WithdrawService
     }
 
     /**
-     * Create a withdraw for the given account
-     * 
-     * @param Account $account
-     * @param array $data
-     * @return AccountWithdraw
+     * Create a withdraw for the given account.
+     *
      * @throws InsufficientBalanceException
      */
     public function createWithdraw(Account $account, array $data): AccountWithdraw
@@ -84,7 +81,6 @@ class WithdrawService
             $this->sendWithdrawEmail($withdraw, $account, $isScheduled);
 
             return $withdraw;
-
         } catch (Throwable $e) {
             Db::rollBack();
             throw $e;
@@ -131,6 +127,8 @@ class WithdrawService
 
     private function processScheduledWithdraw(AccountWithdraw $withdraw, array &$results): void
     {
+        $account = null;
+
         Db::beginTransaction();
         try {
             $account = Account::findOrFail($withdraw->account_id);
@@ -139,15 +137,14 @@ class WithdrawService
 
             Db::commit();
 
-            $results['processed']++;
-
+            ++$results['processed'];
         } catch (Throwable $e) {
             Db::rollBack();
 
             $withdraw->error = true;
             $withdraw->save();
 
-            $results['failed']++;
+            ++$results['failed'];
             $results['errors'][] = [
                 'withdraw_id' => $withdraw->id,
                 'error' => $e->getMessage(),
@@ -160,7 +157,7 @@ class WithdrawService
 
             // Send error notification email with user-friendly message
             $pixData = $withdraw->pix;
-            if ($pixData) {
+            if ($pixData && $account) {
                 $userMessage = $this->getUserFriendlyErrorMessage($e);
                 $this->sendErrorEmail($withdraw, $account, $pixData->key, $userMessage);
             }
@@ -252,11 +249,9 @@ class WithdrawService
     private function getUserFriendlyErrorMessage(Throwable $e): string
     {
         return match (true) {
-            $e instanceof InsufficientBalanceException => 
-                'Saldo insuficiente. Certifique-se de que sua conta possui saldo disponível para realizar o saque.',
-            
-            default => 
-                'Não foi possível processar seu saque. Por favor, tente novamente mais tarde ou entre em contato com o suporte.'
+            $e instanceof InsufficientBalanceException => 'Saldo insuficiente. Certifique-se de que sua conta possui saldo disponível para realizar o saque.',
+
+            default => 'Não foi possível processar seu saque. Por favor, tente novamente mais tarde ou entre em contato com o suporte.'
         };
     }
 

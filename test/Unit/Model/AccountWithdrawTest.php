@@ -74,7 +74,7 @@ class AccountWithdrawTest extends TestCase
         $this->assertArrayHasKey('scheduled', $casts);
         $this->assertArrayHasKey('done', $casts);
         $this->assertArrayHasKey('error', $casts);
-        
+
         $this->assertEquals('float', $casts['amount']);
         $this->assertEquals('boolean', $casts['scheduled']);
         $this->assertEquals('boolean', $casts['done']);

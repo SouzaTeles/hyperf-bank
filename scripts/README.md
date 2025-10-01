@@ -33,7 +33,7 @@ chmod +x scripts/install-hooks.sh
    - Verifica se o código segue PSR-12 e regras do projeto
    - Se falhar: rode `make cs-fix` para corrigir automaticamente
 
-2. **PHPStan (nível 9)** - Análise estática
+2. **PHPStan (nível 5)** - Análise estática
    - Detecta erros de tipo, métodos inexistentes, etc.
    - Se falhar: corrija os erros ou ajuste `phpstan.neon.dist`
 
@@ -63,7 +63,7 @@ git commit --no-verify -m "mensagem"
 
 ## Arquivos
 
-- `pre-commit` - Script do hook (copiado para `.git/hooks/`)
+- `pre-commit` - Script shell do hook (copiado para `.git/hooks/`)
 - `install-hooks.sh` - Instalador para Linux/Mac
 - `install-hooks.ps1` - Instalador para Windows PowerShell
 - `README.md` - Este arquivo

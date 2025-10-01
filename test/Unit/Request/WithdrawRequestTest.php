@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Test\Unit\Request;
 
+use DateTime;
 use PHPUnit\Framework\TestCase;
 
 class WithdrawRequestTest extends TestCase
@@ -50,7 +51,7 @@ class WithdrawRequestTest extends TestCase
     {
         // Testa que method aceita PIX e pix (case insensitive)
         $validMethods = ['PIX', 'pix'];
-        
+
         foreach ($validMethods as $method) {
             $this->assertContains($method, $validMethods);
         }
@@ -79,19 +80,19 @@ class WithdrawRequestTest extends TestCase
         // Testa formato de data válido: Y-m-d H:i
         $validFormat = 'Y-m-d H:i';
         $exampleDate = '2025-12-31 15:30';
-        
-        $parsed = \DateTime::createFromFormat($validFormat, $exampleDate);
-        
-        $this->assertInstanceOf(\DateTime::class, $parsed);
+
+        $parsed = DateTime::createFromFormat($validFormat, $exampleDate);
+
+        $this->assertInstanceOf(DateTime::class, $parsed);
         $this->assertEquals($exampleDate, $parsed->format($validFormat));
     }
 
     public function testScheduleDateMustBeFuture(): void
     {
         // Testa que data agendada deve ser futura
-        $futureDate = new \DateTime('+1 day');
-        $pastDate = new \DateTime('-1 day');
-        $now = new \DateTime();
+        $futureDate = new DateTime('+1 day');
+        $pastDate = new DateTime('-1 day');
+        $now = new DateTime();
 
         $this->assertGreaterThan($now, $futureDate);
         $this->assertLessThan($now, $pastDate);
@@ -101,9 +102,9 @@ class WithdrawRequestTest extends TestCase
     {
         // Testa que data agendada não pode ser > 7 dias
         $maxDays = 7;
-        $validDate = new \DateTime('+3 days');
-        $invalidDate = new \DateTime('+10 days');
-        $now = new \DateTime();
+        $validDate = new DateTime('+3 days');
+        $invalidDate = new DateTime('+10 days');
+        $now = new DateTime();
 
         $validDiff = $validDate->diff($now)->days;
         $invalidDiff = $invalidDate->diff($now)->days;

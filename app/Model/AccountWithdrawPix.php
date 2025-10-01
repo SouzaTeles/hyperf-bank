@@ -14,14 +14,14 @@ use Hyperf\DbConnection\Model\Model;
 class AccountWithdrawPix extends Model
 {
     public const TYPE_EMAIL = 'email';
-    
-    protected ?string $table = 'account_withdraw_pix';
 
     public bool $timestamps = false;
 
-    protected string $primaryKey = 'account_withdraw_id';
-
     public bool $incrementing = false;
+
+    protected ?string $table = 'account_withdraw_pix';
+
+    protected string $primaryKey = 'account_withdraw_id';
 
     protected string $keyType = 'string';
 

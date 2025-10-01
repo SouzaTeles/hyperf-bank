@@ -100,7 +100,6 @@ class AccountTest extends TestCase
         $account->fill(['name' => 'Test']);
 
         // Assert
-        // Balance não está setado, mas o cast deve funcionar
         $this->assertIsFloat($account->balance ?? 0.0);
     }
 }

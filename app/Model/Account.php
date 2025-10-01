@@ -15,13 +15,13 @@ use Hyperf\DbConnection\Model\Model;
  */
 class Account extends Model
 {
-    protected ?string $table = 'account';
-
     public bool $timestamps = true;
 
-    protected string $primaryKey = 'id';
-
     public bool $incrementing = false;
+
+    protected ?string $table = 'account';
+
+    protected string $primaryKey = 'id';
 
     protected string $keyType = 'string';
 

@@ -11,6 +11,7 @@ declare(strict_types=1);
  */
 return (new PhpCsFixer\Config())
     ->setRiskyAllowed(true)
+    ->setParallelConfig(PhpCsFixer\Runner\Parallel\ParallelConfigFactory::detect())
     ->setRules([
         '@PSR2' => true,
         '@Symfony' => true,
@@ -73,10 +74,12 @@ return (new PhpCsFixer\Config())
         'lowercase_static_reference' => true,
         'no_useless_else' => true,
         'no_unused_imports' => true,
-        'not_operator_with_successor_space' => true,
+        'not_operator_with_successor_space' => false,  // !$var ao invés de ! $var
         'not_operator_with_space' => false,
         'ordered_class_elements' => true,
         'php_unit_strict' => false,
+        'php_unit_internal_class' => false,  // Não adiciona @internal
+        'php_unit_test_class_requires_covers' => false,  // Não adiciona @coversNothing
         'phpdoc_separation' => false,
         'single_quote' => true,
         'standardize_not_equals' => true,

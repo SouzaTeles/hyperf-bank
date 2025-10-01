@@ -385,40 +385,8 @@ make test-filter filter=testProcessScheduledWithdrawWithSufficientBalance
 make test-coverage
 ```
 
-### Testes Unitários
+### Cobertura
 
-**Service Layer:**
-- `WithdrawServiceTest` - Testa lógica de execução de saques
-  - Saque com saldo suficiente
-  - Exceção quando saldo insuficiente
-  - Não permite saldo negativo
-  - Atualiza status do saque
-  - Saque com saldo exato
-
-**Exceções:**
-- `InsufficientBalanceExceptionTest` - Testa exceção customizada
-  - Armazena saldo atual e solicitado
-  - Funciona com valores zero e grandes
-
-**Models:**
-- `AccountTest` - Testa model Account
-  - Configuração de tabela, primary key, timestamps
-  - Fillable attributes e casts
-  
-- `AccountWithdrawTest` - Testa model AccountWithdraw
-  - Configuração de campos e casts
-  - Constantes e valores booleanos
-
-**Validações:**
-- `WithdrawRequestTest` - Testa regras de validação
-  - Formato de data e validações de campo
-  - Método aceita PIX/pix (case insensitive)
-  - Amount >= 1
-  - Schedule futuro e <= 7 dias
-
-### Testes de Integração
-
-**Fluxo Completo:**
 - Saque imediato com saldo suficiente/insuficiente
 - Validação de agendamento (passado/futuro/limite 7 dias)
 - Processamento de saques agendados
@@ -497,7 +465,7 @@ make install-hooks
 
 **O que o hook faz:**
 1. Verifica formatação de código (PHP CS Fixer)
-2. Executa análise estática (PHPStan nível 9)
+2. Executa análise estática (PHPStan nível 5)
 3. **Bloqueia o commit** se houver erros
 
 **Bypass (não recomendado):**

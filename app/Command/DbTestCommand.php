@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use Hyperf\Command\Command as HyperfCommand;
 use Hyperf\Command\Annotation\Command;
+use Hyperf\Command\Command as HyperfCommand;
 use Hyperf\DbConnection\Db;
 use Psr\Container\ContainerInterface;
 use Throwable;
@@ -41,7 +41,7 @@ class DbTestCommand extends HyperfCommand
             // List tables
             $tables = Db::select('SHOW TABLES');
             $this->line('✓ Tables in database:', 'info');
-            
+
             if (empty($tables)) {
                 $this->line('  (no tables yet - run migrations)', 'comment');
             } else {

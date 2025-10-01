@@ -1,14 +1,17 @@
 <?php
 
 declare(strict_types=1);
-/**
+use App\Service\MailerFactory;
+use Symfony\Component\Mailer\MailerInterface;
+
+/*
  * This file is part of Hyperf.
  *
- * @link     https://www.hyperf.io
+ * @see     https://www.hyperf.io
  * @document https://hyperf.wiki
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
 return [
-    Symfony\Component\Mailer\MailerInterface::class => App\Service\MailerFactory::class,
+    MailerInterface::class => MailerFactory::class,
 ];

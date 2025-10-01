@@ -12,10 +12,10 @@ use Hyperf\DbConnection\Model\Model;
  * @property string $method
  * @property float $amount
  * @property bool $scheduled
- * @property string|null $scheduled_for
+ * @property null|string $scheduled_for
  * @property bool $done
  * @property bool $error
- * @property string|null $error_reason
+ * @property null|string $error_reason
  * @property string $created_at
  * @property string $updated_at
  */
@@ -23,13 +23,13 @@ class AccountWithdraw extends Model
 {
     public const METHOD_PIX = 'PIX';
 
-    protected ?string $table = 'account_withdraw';
-
     public bool $timestamps = true;
 
-    protected string $primaryKey = 'id';
-
     public bool $incrementing = false;
+
+    protected ?string $table = 'account_withdraw';
+
+    protected string $primaryKey = 'id';
 
     protected string $keyType = 'string';
 

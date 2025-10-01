@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Service\WithdrawService;
-use Hyperf\Command\Command as HyperfCommand;
 use Hyperf\Command\Annotation\Command;
+use Hyperf\Command\Command as HyperfCommand;
 use Psr\Container\ContainerInterface;
 
 #[Command]
@@ -48,5 +48,4 @@ class ProcessScheduledWithdrawsCommand extends HyperfCommand
 
         return $results['failed'] > 0 ? 1 : 0;
     }
-    
 }
