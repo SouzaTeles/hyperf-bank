@@ -429,6 +429,84 @@ make test-coverage
 
 ---
 
+## Qualidade de Código
+
+### PHPStan - Análise Estática
+
+PHPStan analisa o código via hook de pre-commit e detecta bugs em potencial, erros de tipo, e violações de contratos.
+
+**Executar análise manualmente:**
+```bash
+make phpstan
+```
+
+**Níveis:** O projeto usa nível 0 (básico). Para aumentar o rigor, edite `phpstan.neon.dist`:
+```neon
+parameters:
+  level: 5  # Valores: 0-9 (quanto maior, mais rigoroso)
+```
+
+**O que PHPStan detecta:**
+- Chamadas a métodos/propriedades inexistentes
+- Erros de tipo (string onde esperava int)
+- Variáveis não inicializadas
+- Retornos incorretos de funções
+- Código inacessível (dead code)
+
+**Gerar baseline (ignora erros existentes):**
+```bash
+make phpstan-baseline
+```
+
+### PHP CS Fixer - Padronização
+
+Formata o código seguindo PSR-12 e boas práticas.
+
+**Verificar problemas de formatação (sem modificar):**
+```bash
+docker compose exec hyperf-pix composer cs-fix -- --dry-run --diff
+```
+
+**Corrigir código automaticamente:**
+```bash
+make cs-fix
+# ou
+composer cs-fix
+```
+
+**Configuração:** `.php-cs-fixer.php`
+
+### Git Hooks - Pre-Commit
+
+Para garantir qualidade antes de cada commit, instale o hook de pre-commit.
+
+**✅ Compatível com Windows, Linux e macOS**
+- Executa **dentro do Docker container**
+- Não precisa PHP instalado no host
+- Requer apenas Docker e Git
+
+**Instalação:**
+```bash
+# Via Makefile (recomendado - todos os sistemas)
+make install-hooks
+
+# Ou manualmente
+./scripts/install-hooks.sh    # Linux/Mac
+.\scripts\install-hooks.ps1   # Windows PowerShell
+```
+
+**O que o hook faz:**
+1. Verifica formatação de código (PHP CS Fixer)
+2. Executa análise estática (PHPStan nível 9)
+3. **Bloqueia o commit** se houver erros
+
+**Bypass (não recomendado):**
+```bash
+git commit --no-verify -m "mensagem"
+```
+
+---
+
 ## Decisões Técnicas
 
 ### 1. Service Layer Pattern

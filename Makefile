@@ -48,3 +48,24 @@ test-filter:
 
 test-coverage:
 	docker compose exec hyperf-pix vendor/bin/phpunit --coverage-html coverage
+
+# Code Quality
+phpstan:
+	docker compose exec hyperf-pix vendor/bin/phpstan analyse --memory-limit=200M
+
+phpstan-baseline:
+	docker compose exec hyperf-pix vendor/bin/phpstan analyse --memory-limit=200M --generate-baseline
+
+cs-fix:
+	docker compose exec hyperf-pix vendor/bin/php-cs-fixer fix
+
+cs-check:
+	docker compose exec hyperf-pix vendor/bin/php-cs-fixer fix --dry-run --diff
+
+# Git Hooks
+install-hooks:
+	@echo Installing Git hooks...
+	@if not exist .git\hooks mkdir .git\hooks
+	@copy /Y scripts\pre-commit .git\hooks\pre-commit > nul 2>&1 || cp scripts/pre-commit .git/hooks/pre-commit
+	@echo [OK] Pre-commit hook installed successfully!
+	@echo Hook runs inside Docker - works on Windows, Linux, and macOS

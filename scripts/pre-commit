@@ -1,0 +1,83 @@
+#!/bin/sh
+
+# Pre-commit hook for code quality checks
+# Runs inside Docker container - compatible with Windows, Linux, and macOS
+# Requires: Docker and docker-compose
+
+# Create a PHP script to run inside the container
+HOOK_SCRIPT='<?php
+// ANSI color codes
+const RED = "\033[0;31m";
+const GREEN = "\033[0;32m";
+const YELLOW = "\033[1;33m";
+const BLUE = "\033[0;34m";
+const RESET = "\033[0m";
+
+function printHeader(string $text): void {
+    echo "\n" . BLUE . $text . RESET . "\n";
+}
+
+function printSuccess(string $text): void {
+    echo GREEN . "✅ " . $text . RESET . "\n";
+}
+
+function printError(string $text): void {
+    echo RED . "❌ " . $text . RESET . "\n";
+}
+
+function printWarning(string $text): void {
+    echo YELLOW . "💡 " . $text . RESET . "\n";
+}
+
+function runCommand(string $command): int {
+    passthru($command, $returnCode);
+    return $returnCode;
+}
+
+echo BLUE . "\n🔍 Running code quality checks...\n" . RESET;
+
+$failed = false;
+
+// 1. PHP CS Fixer
+printHeader("📝 Checking code style (PHP CS Fixer)...");
+$csFixerResult = runCommand("vendor/bin/php-cs-fixer fix --dry-run --diff --config=.php-cs-fixer.php");
+
+if ($csFixerResult !== 0) {
+    printError("Code style issues found!");
+    printWarning("Run '\''make cs-fix'\'' to fix them automatically");
+    echo "\n";
+    $failed = true;
+} else {
+    printSuccess("Code style OK");
+    echo "\n";
+}
+
+// 2. PHPStan
+printHeader("🔎 Running static analysis (PHPStan)...");
+$phpstanResult = runCommand("vendor/bin/phpstan analyse --memory-limit=200M");
+
+if ($phpstanResult !== 0) {
+    printError("PHPStan found errors!");
+    printWarning("Fix the errors or adjust phpstan.neon.dist");
+    echo "\n";
+    $failed = true;
+} else {
+    printSuccess("PHPStan OK");
+    echo "\n";
+}
+
+// 3. Result
+if ($failed) {
+    printError("Pre-commit checks FAILED!");
+    printWarning("Fix the issues above before committing.");
+    echo "\n";
+    exit(1);
+}
+
+printSuccess("All checks passed! Proceeding with commit...");
+echo "\n";
+exit(0);
+'
+
+# Execute the PHP script inside Docker container
+docker compose exec -T hyperf-pix php -r "$HOOK_SCRIPT"
