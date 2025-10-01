@@ -1,0 +1,113 @@
+<mjml>
+  <mj-head>
+    <mj-title>Erro no Processamento de Saque Agendado</mj-title>
+    <mj-attributes>
+      <mj-all font-family="Arial, sans-serif" />
+      <mj-text font-size="14px" color="#232823" line-height="20px" />
+      <mj-section background-color="#ffffff" padding="20px" />
+    </mj-attributes>
+  </mj-head>
+  <mj-body background-color="#f4f4f4">
+    <!-- Header -->
+    <mj-section background-color="#232823" padding="30px">
+      <mj-column>
+        <mj-text align="center" color="#f5eb64" font-size="28px" font-weight="bold">
+          Hyperf Bank
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Error Icon -->
+    <mj-section background-color="#ffffff" padding-top="40px" padding-bottom="20px">
+      <mj-column>
+        <mj-text align="center" font-size="60px">
+          ❌
+        </mj-text>
+        <mj-text align="center" font-size="24px" font-weight="bold" color="#F44336" padding-top="10px">
+          Erro no Processamento
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Greeting -->
+    <mj-section background-color="#ffffff" padding-top="0px">
+      <mj-column>
+        <mj-text align="center" font-size="16px" color="#232823">
+          Olá, <strong>{{accountName}}</strong>!
+        </mj-text>
+        <mj-text align="center" font-size="14px" color="#666666" padding-top="10px">
+          Infelizmente, não foi possível processar seu saque agendado. Por favor, verifique as informações abaixo e entre em contato conosco se necessário.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Details Box -->
+    <mj-section background-color="#ffffff" padding="20px">
+      <mj-column>
+        <mj-table>
+          <tr style="border-bottom: 1px solid #eeeeee;">
+            <td style="padding: 12px 0; color: #999999;">Valor:</td>
+            <td style="padding: 12px 0; text-align: right; font-weight: bold; color: #333333;">R$ {{amount}}</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #eeeeee;">
+            <td style="padding: 12px 0; color: #999999;">Chave PIX:</td>
+            <td style="padding: 12px 0; text-align: right; font-weight: bold; color: #333333;">{{pixKey}}</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #eeeeee;">
+            <td style="padding: 12px 0; color: #999999;">Agendado para:</td>
+            <td style="padding: 12px 0; text-align: right; font-weight: bold; color: #999999;">{{scheduledTime}}</td>
+          </tr>
+          <tr>
+            <td style="padding: 12px 0; color: #999999;">ID do Saque:</td>
+            <td style="padding: 12px 0; text-align: right; font-size: 12px; color: #999999;">{{withdrawId}}</td>
+          </tr>
+        </mj-table>
+      </mj-column>
+    </mj-section>
+
+    <!-- Error Notice -->
+    <mj-section background-color="#FFEBEE" padding="20px">
+      <mj-column>
+        <mj-text align="center" font-size="12px" color="#999999" font-weight="bold" padding-bottom="10px">
+          MOTIVO DO ERRO
+        </mj-text>
+        <mj-text align="center" font-size="14px" color="#C62828" line-height="22px" font-weight="bold">
+          {{errorMessage}}
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Action Notice -->
+    <mj-section background-color="#ffffff" padding="20px">
+      <mj-column>
+        <mj-text align="center" font-size="14px" color="#666666" line-height="22px">
+          <strong>O que fazer agora?</strong><br/><br/>
+          1. Verifique se sua conta possui saldo suficiente<br/>
+          2. Confirme se os dados do PIX estão corretos<br/>
+          3. Tente realizar um novo saque<br/>
+          4. Em caso de dúvidas, entre em contato com nosso suporte
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Support Button -->
+    <mj-section background-color="#ffffff" padding="20px">
+      <mj-column>
+        <mj-button background-color="#F44336" color="#ffffff" href="mailto:suporte@hyperfbank.com" font-size="14px" font-weight="bold" padding="15px 30px">
+          Falar com Suporte
+        </mj-button>
+      </mj-column>
+    </mj-section>
+
+    <!-- Footer -->
+    <mj-section background-color="#ffffff" padding-top="30px" padding-bottom="30px">
+      <mj-column>
+        <mj-divider border-color="#eeeeee" />
+        <mj-text align="center" font-size="12px" color="#666666" padding-top="20px">
+          Este é um email automático, não responda.<br/>
+          <span style="color: #232823; font-weight: bold;">Hyperf Bank</span> - Sistema de Pagamentos
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

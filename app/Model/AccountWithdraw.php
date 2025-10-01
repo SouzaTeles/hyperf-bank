@@ -16,6 +16,8 @@ use Hyperf\DbConnection\Model\Model;
  * @property bool $done
  * @property bool $error
  * @property string|null $error_reason
+ * @property string $created_at
+ * @property string $updated_at
  */
 class AccountWithdraw extends Model
 {
@@ -23,7 +25,7 @@ class AccountWithdraw extends Model
 
     protected ?string $table = 'account_withdraw';
 
-    public bool $timestamps = false;
+    public bool $timestamps = true;
 
     protected string $primaryKey = 'id';
 

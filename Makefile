@@ -10,6 +10,10 @@ migrate:
 db-test:
 	docker compose exec hyperf-pix php bin/hyperf.php db:test
 
+# Cron
+cron-process:
+	docker compose exec hyperf-pix php bin/hyperf.php withdraw:process-scheduled
+
 # Logs
 logs:
 	docker exec -it hyperf-pix tail -f /opt/www/runtime/logs/hyperf.log
@@ -28,3 +32,10 @@ logs-error:
 
 logs-clear:
 	docker exec -it hyperf-pix truncate -s 0 /opt/www/runtime/logs/hyperf.log
+
+# Tests
+test:
+	docker compose exec hyperf-pix composer test
+
+test-filter:
+	docker compose exec hyperf-pix vendor/bin/phpunit --filter=$(filter)

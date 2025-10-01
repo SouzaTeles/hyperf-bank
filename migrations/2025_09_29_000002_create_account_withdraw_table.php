@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->boolean('done')->default(false);
             $table->boolean('error')->default(false);
             $table->string('error_reason')->nullable();
+            $table->timestamps();
 
             $table->index('account_id');
             $table->foreign('account_id')

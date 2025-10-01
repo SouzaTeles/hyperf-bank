@@ -7,7 +7,7 @@ namespace App\Mail;
 use App\Model\AccountWithdraw;
 use Symfony\Component\Mime\Email;
 
-class WithdrawConfirmationMail extends AbstractMail
+class WithdrawScheduleConfirmationMail extends AbstractMail
 {
     public function __construct(
         private AccountWithdraw $withdraw,
@@ -27,19 +27,19 @@ class WithdrawConfirmationMail extends AbstractMail
 
     protected function getSubject(): string
     {
-        return 'Saque Realiazdo - Hyperf Bank';
+        return 'Confirmação de Agendamento de Saque - Hyperf Bank';
     }
 
     protected function getTemplateVariables(): array
     {
         $amount = number_format($this->withdraw->amount, 2, ',', '.');
-        $processedAt = date('d/m/Y \à\s H:i');
+        $scheduledTime = date('d/m/Y \à\s H:i', strtotime($this->withdraw->scheduled_for));
 
         return [
             'accountName' => $this->accountName,
             'amount' => $amount,
             'pixKey' => $this->pixKey,
-            'processedAt' => $processedAt,
+            'scheduledTime' => $scheduledTime,
             'withdrawId' => $this->withdraw->id,
         ];
     }

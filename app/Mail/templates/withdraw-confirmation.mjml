@@ -1,0 +1,88 @@
+<mjml>
+  <mj-head>
+    <mj-title>Saque Processado com Sucesso</mj-title>
+    <mj-attributes>
+      <mj-all font-family="Arial, sans-serif" />
+      <mj-text font-size="14px" color="#232823" line-height="20px" />
+      <mj-section background-color="#ffffff" padding="20px" />
+    </mj-attributes>
+  </mj-head>
+  <mj-body background-color="#f4f4f4">
+    <!-- Header -->
+    <mj-section background-color="#232823" padding="30px">
+      <mj-column>
+        <mj-text align="center" color="#f5eb64" font-size="28px" font-weight="bold">
+          Hyperf Bank
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Success Icon -->
+    <mj-section background-color="#ffffff" padding-top="40px" padding-bottom="20px">
+      <mj-column>
+        <mj-text align="center" font-size="60px">
+          ✅
+        </mj-text>
+        <mj-text align="center" font-size="24px" font-weight="bold" color="#4CAF50" padding-top="10px">
+          Saque Processado!
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section background-color="#ffffff" padding-top="0px">
+      <mj-column>
+        <mj-text align="center" font-size="16px" color="#232823">
+          Olá, <strong>{{accountName}}</strong>!
+        </mj-text>
+        <mj-text align="center" font-size="14px" color="#666666" padding-top="10px">
+          Seu saque foi processado com sucesso! O valor já foi debitado da sua conta e transferido para a chave PIX informada.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Details Box -->
+    <mj-section background-color="#ffffff" padding="20px">
+      <mj-column>
+        <mj-table>
+          <tr style="border-bottom: 1px solid #eeeeee;">
+            <td style="padding: 12px 0; color: #999999;">Valor:</td>
+            <td style="padding: 12px 0; text-align: right; font-weight: bold; color: #333333; font-size: 18px;">R$ {{amount}}</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #eeeeee;">
+            <td style="padding: 12px 0; color: #999999;">Chave PIX:</td>
+            <td style="padding: 12px 0; text-align: right; font-weight: bold; color: #333333;">{{pixKey}}</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #eeeeee;">
+            <td style="padding: 12px 0; color: #999999;">Processado em:</td>
+            <td style="padding: 12px 0; text-align: right; font-weight: bold; color: #2196F3;">{{processedAt}}</td>
+          </tr>
+          <tr>
+            <td style="padding: 12px 0; color: #999999;">ID do Saque:</td>
+            <td style="padding: 12px 0; text-align: right; font-size: 12px; color: #999999;">{{withdrawId}}</td>
+          </tr>
+        </mj-table>
+      </mj-column>
+    </mj-section>
+
+    <!-- Success Notice -->
+    <mj-section background-color="#E8F5E9" padding="20px">
+      <mj-column>
+        <mj-text align="center" font-size="14px" color="#2E7D32" line-height="22px">
+          <strong>✓ Transação Concluída</strong><br/>
+          O valor foi debitado da sua conta e enviado para a chave PIX.<br/>
+          A transferência pode levar alguns instantes para aparecer no destino.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Footer -->
+    <mj-section background-color="#ffffff" padding-top="30px" padding-bottom="30px">
+      <mj-column>
+        <mj-divider border-color="#eeeeee" />
+        <mj-text align="center" font-size="12px" color="#666666" padding-top="20px">
+          Este é um email automático, não responda.<br/>
+          <span style="color: #232823; font-weight: bold;">Hyperf Bank</span> - Sistema de Pagamentos
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

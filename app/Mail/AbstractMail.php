@@ -11,7 +11,7 @@ use Symfony\Component\Mime\Email;
 
 abstract class AbstractMail
 {
-    protected const TEMPLATES_PATH = BASE_PATH . '/resources/mail/';
+    protected const TEMPLATES_PATH = BASE_PATH . '/app/Mail/templates/';
 
     #[Inject]
     protected MjmlService $mjmlService;

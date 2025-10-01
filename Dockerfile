@@ -44,6 +44,9 @@ RUN apk add --no-cache nodejs npm
 # Install MJML globally
 RUN npm install -g mjml
 
+# Install cron
+RUN apk add --no-cache dcron
+
 WORKDIR /opt/www
 
 # Composer Cache
@@ -53,5 +56,10 @@ WORKDIR /opt/www
 COPY . /opt/www
 RUN composer install --no-dev -o && php bin/hyperf.php
 
+# Setup cron
+RUN echo "* * * * * cd /opt/www && php bin/hyperf.php withdraw:process-scheduled >> /opt/www/runtime/logs/cron.log 2>&1" > /etc/crontabs/root && \
+    chmod 0644 /etc/crontabs/root
+
+# Start cron and Hyperf server
 EXPOSE 9501
-ENTRYPOINT ["php", "/opt/www/bin/hyperf.php", "server:watch"]
+CMD crond -l 2 && php bin/hyperf.php server:watch

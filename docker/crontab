@@ -1,0 +1,2 @@
+# Processar saques agendados a cada minuto
+* * * * * cd /opt/www && php bin/hyperf.php withdraw:process-scheduled >> /opt/www/runtime/logs/cron-scheduled-withdraws.log 2>&1

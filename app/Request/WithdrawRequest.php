@@ -9,12 +9,12 @@ class WithdrawRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'method' => 'required|string|in:PIX',
-            'pix' => 'required_if:method,PIX|array',
+            'method' => 'required|string|in:PIX,pix',
+            'pix' => 'required_if:method,PIX,pix|array',
             'pix.type' => 'required|in:email',
             'pix.key' => 'required|email',
             'amount' => 'required|numeric|min:1',
-            'schedule' => 'nullable|date_format:Y-m-d H:i',
+            'schedule' => 'nullable|date_format:Y-m-d H:i|after:now|before:7 days',
         ];
     }
 
@@ -29,10 +29,9 @@ class WithdrawRequest extends FormRequest
             'amount.required' => 'O valor é obrigatório.',
             'amount.numeric' => 'O valor deve ser numérico.',
             'amount.min' => 'O valor mínimo é 1.',
-            'accountId.required' => 'O ID da conta é obrigatório.',
-            'accountId.integer' => 'O ID da conta deve ser inteiro.',
-            'accountId.exists' => 'Conta não encontrada.',
             'schedule.date_format' => 'O agendamento deve estar no formato YYYY-MM-DD HH:MM.',
+            'schedule.after' => 'A data de agendamento deve ser no futuro.',
+            'schedule.before' => 'A data de agendamento não pode ser maior que 7 dias.',
         ];
     }
 }
