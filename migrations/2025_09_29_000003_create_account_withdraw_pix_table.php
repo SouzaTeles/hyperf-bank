@@ -11,7 +11,7 @@ return new class extends Migration {
     {
         Schema::create('account_withdraw_pix', function (Blueprint $table) {
             $table->string('account_withdraw_id', 36);
-            $table->string('type');
+            $table->string('type', 10);
             $table->string('key');
 
             $table->primary('account_withdraw_id');

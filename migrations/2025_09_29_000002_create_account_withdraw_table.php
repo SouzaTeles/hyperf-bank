@@ -12,7 +12,7 @@ return new class extends Migration {
         Schema::create('account_withdraw', function (Blueprint $table) {
             $table->string('id', 36)->primary(); // UUID
             $table->string('account_id', 36);
-            $table->string('method');
+            $table->string('method', 10);
             $table->decimal('amount', 15, 2)->unsigned();
             $table->boolean('scheduled')->default(false);
             $table->dateTime('scheduled_for')->nullable();
